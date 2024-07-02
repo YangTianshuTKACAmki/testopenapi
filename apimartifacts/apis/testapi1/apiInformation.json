@@ -1,0 +1,22 @@
+{
+  "properties": {
+    "path": "",
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2AuthenticationSettings": [],
+      "openidAuthenticationSettings": []
+    },
+    "description": "",
+    "isCurrent": true,
+    "displayName": "testapi1",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://testapimyang.azure-api.net",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
