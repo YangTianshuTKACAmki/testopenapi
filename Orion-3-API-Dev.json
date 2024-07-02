@@ -1,0 +1,273 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Orion-3-API-Dev",
+        "description": "IaCテスト用のサンプルAPI",
+        "version": ""
+    },
+    "servers": [
+        {
+            "url": "https://orion-03-apim-webapps-dev.azure-api.net"
+        }
+    ],
+    "paths": {
+        "/api/redis": {
+            "get": {
+                "summary": "getRedisItem",
+                "description": "Redisのデータを返却する",
+                "operationId": "getRedisItem",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200"
+                                },
+                                "example": {
+                                    "redis": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/sql": {
+            "get": {
+                "summary": "getSQLDatabaseItem",
+                "description": "SQLDatabaseのデータを返却する",
+                "operationId": "getSQLDatabaseItem",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_1"
+                                },
+                                "example": {
+                                    "sqldb": [
+                                        "string"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/cosmosdb": {
+            "get": {
+                "summary": "getCosmosDBItem",
+                "description": "CosmonDBのデータを返却する",
+                "operationId": "getCosmosDBItem",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_2"
+                                },
+                                "example": {
+                                    "cosmosdb": [
+                                        "string"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/storage": {
+            "get": {
+                "summary": "getStorageItem",
+                "description": "Strageのデータを返却する",
+                "operationId": "getStorageItem",
+                "parameters": [
+                    {
+                        "name": "fileContent",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "enum": [
+                                "SGVsbG8gV29ybGQhIQ%3D%3D"
+                            ],
+                            "type": "string",
+                            "default": "SGVsbG8gV29ybGQhIQ%3D%3D"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_3"
+                                },
+                                "example": {
+                                    "success": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "fileContent parameters are required"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/keyvault": {
+            "get": {
+                "summary": "getKeyvaultItem",
+                "description": "keyvaultのデータを返却する",
+                "operationId": "getKeyvaultItem",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_4"
+                                },
+                                "example": {
+                                    "keyvault": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/env": {
+            "get": {
+                "summary": "getEnvItem",
+                "description": "Envのデータを返却する",
+                "operationId": "getEnvItem",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200_5"
+                                },
+                                "example": {
+                                    "env": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Schema": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "inline_response_200": {
+                "type": "object",
+                "properties": {
+                    "redis": {
+                        "type": "string"
+                    }
+                }
+            },
+            "inline_response_200_1": {
+                "type": "object",
+                "properties": {
+                    "sqldb": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "inline_response_200_2": {
+                "type": "object",
+                "properties": {
+                    "cosmosdb": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "inline_response_200_3": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "string"
+                    }
+                }
+            },
+            "inline_response_200_4": {
+                "type": "object",
+                "properties": {
+                    "keyvault": {
+                        "type": "string"
+                    }
+                }
+            },
+            "inline_response_200_5": {
+                "type": "object",
+                "properties": {
+                    "env": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}
