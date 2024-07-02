@@ -8,7 +8,7 @@
     },
     "description": "",
     "isCurrent": true,
-    "displayName": "testapi1",
+    "displayName": "changedNameFromGithubActions",
     "protocols": [
       "https"
     ],
