@@ -2,6 +2,9 @@ name: Lint and Secret Scan
 
 on: [push]
 
+env:
+  lint_file_path: ${{vars.LINT_FILE_PATH}}
+
 jobs:
   static_analysis:
     name: lint and secret scan
@@ -12,5 +15,5 @@ jobs:
       - uses: stoplightio/spectral-action@latest
         with:
           # file_glob: "Orion-3-API-Dev.json"
-          file_glob: ${{vars.LINT_FILE_PATH}}
+          file_glob: ${{env.lint_file_path}}
           # file_glob: "apimartifacts/apis/**/*.json"
