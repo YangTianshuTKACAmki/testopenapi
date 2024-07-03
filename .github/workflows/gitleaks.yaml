@@ -11,6 +11,6 @@ jobs:
       - run: docker run -v ${{github.workspace}}:/path ghcr.io/gitleaks/gitleaks:latest detect -v --source="/path"
       - uses: stoplightio/spectral-action@latest
         with:
-          file_glob: "Orion-3-API-Dev.json"
-          # file_glob: ${{vars.LINT_FILE_PATH}}
+          # file_glob: "Orion-3-API-Dev.json"
+          file_glob: ${{vars.LINT_FILE_PATH}}
           # file_glob: "apimartifacts/apis/**/*.json"
