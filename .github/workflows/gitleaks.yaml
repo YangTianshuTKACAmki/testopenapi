@@ -13,5 +13,5 @@ jobs:
       - uses: stoplightio/spectral-action@latest
         with:
           # file_glob: "Orion-3-API-Dev.json"
-          file_glob: ${{vars.LINT_FILE_PATH}}
+          file_glob: ${{secrets.LINT_FILE_PATH}}
           # file_glob: "apimartifacts/apis/**/*.json"
