@@ -3,7 +3,7 @@
     "info": {
         "title": "Orion-3-API-Dev",
         "description": "IaCテスト用のサンプルAPI",
-        "version": ""
+        "version": "1.0"
     },
     "servers": [
         {
