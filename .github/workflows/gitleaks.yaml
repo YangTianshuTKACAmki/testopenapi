@@ -4,13 +4,14 @@ jobs:
   scan:
     name: gitleaks
     runs-on: ubuntu-latest
+    container: #起動するコンテナイメージを指定
+      image: ghcr.io/gitleaks/gitleaks:latest #指定のdockerイメージを使用
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: ghcr.io/gitleaks/gitleaks:latest
-        run: |
-          gitleaks detect
+      - run: |
+          gitleaks detect -s apimartifacts/apis/**/*.json
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
