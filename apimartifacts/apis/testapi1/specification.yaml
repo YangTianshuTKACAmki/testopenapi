@@ -1,11 +1,11 @@
 openapi: 3.0.1
 info:
   title: changedNameFromGithubActions123
-  description: ''
-  version: '1.0'
+  description: "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"
+  version: "1.0"
 servers:
   - url: https://testapimyang.azure-api.net
-paths: { }
+paths: {}
 components:
   securitySchemes:
     apiKeyHeader:
@@ -17,5 +17,5 @@ components:
       name: subscription-key
       in: query
 security:
-  - apiKeyHeader: [ ]
-  - apiKeyQuery: [ ]
+  - apiKeyHeader: []
+  - apiKeyQuery: []
