@@ -5,16 +5,15 @@ jobs:
     name: gitleaks
     runs-on: ubuntu-latest
     # gitleaks actionsがlicense必要であり、運用の手間を減らすため、dockerイメージを使用
-    container:
-      image: ghcr.io/gitleaks/gitleaks:latest
+    # container:
+    #   image: ghcr.io/gitleaks/gitleaks:latest
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   fetch-depth: 0
-      - run: |
-          git config --global --add safe.directory /github/workspace
-          git config --global --add safe.directory /__w/testopenapi/testopenapi
-          gitleaks detect -v
+      - run:
+          docker run -v ${{github.workspace}}:/path ghcr.io/gitleaks/gitleaks:latest detect -v --source="/path"
+          # git config --global --add safe.directory /github/workspace
+          # git config --global --add safe.directory /__w/testopenapi/testopenapi
+          # gitleaks detect -v
       - uses: stoplightio/spectral-action@latest
         with:
           file_glob: "apimartifacts/apis/**/*.json"
