@@ -1,7 +1,7 @@
-name: static analysis1
+name: On Push Lint and Secret Scan
 on: [push]
 jobs:
-  static analysis:
+  static_analysis:
     name: lint and secret scan
     runs-on: ubuntu-latest
     # gitleaks actionsがlicense必要であり、運用の手間を減らすため、dockerイメージを使用
