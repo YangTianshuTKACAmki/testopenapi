@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["yaml"]
+        language: ["javascript"]
 
     steps:
       - name: Checkout repository
