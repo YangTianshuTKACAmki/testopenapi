@@ -14,8 +14,8 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix:
-        # language: ["json"]
+      # matrix:
+      # language: ["json"]
 
     steps:
       - name: Checkout repository
