@@ -12,6 +12,7 @@ jobs:
           fetch-depth: 0
       - run: |
           git config --global --add safe.directory /github/workspace
+          git config --global --add safe.directory /__w/testopenapi/testopenapi
           gitleaks detect
     # - uses: gitleaks/gitleaks-action@v2
     #   env:
