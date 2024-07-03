@@ -11,7 +11,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          gitleaks detect -s apimartifacts/apis/**/*.json
+          gitleaks detect
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
