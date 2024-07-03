@@ -1,8 +1,0 @@
-{
-  "properties": {
-    "scope": "/subscriptions/60da2572-7619-47fd-85ce-44b3d19a3b50/resourceGroups/Yang-3-ResourceGroup-Dev/providers/Microsoft.ApiManagement/service/testapimyang/products/unlimited",
-    "allowTracing": false,
-    "ownerId": "/subscriptions/60da2572-7619-47fd-85ce-44b3d19a3b50/resourceGroups/Yang-3-ResourceGroup-Dev/providers/Microsoft.ApiManagement/service/testapimyang/users/1",
-    "state": "active"
-  }
-}
