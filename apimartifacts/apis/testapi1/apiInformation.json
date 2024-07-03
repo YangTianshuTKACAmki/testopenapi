@@ -1,6 +1,6 @@
 {
   "properties": {
-    "path": "test",
+    "path": "",
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2AuthenticationSettings": [],
