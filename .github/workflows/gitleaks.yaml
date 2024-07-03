@@ -15,4 +15,10 @@ jobs:
       # Run Spectral
       - uses: stoplightio/spectral-action@latest
         with:
-          file_glob: "apimartifacts/**/*.json"
+          file_glob: "apimartifacts/apis/**/*.json"
+      # Run Spectral
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "20"
+      # - run: npm install -g @stoplight/spectral
+      # - run: spectral lint "${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}\apis\*.{json,yml,yaml}"
