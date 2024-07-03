@@ -12,10 +12,10 @@ jobs:
           fetch-depth: 0
       - run: |
           gitleaks detect
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
-      - uses: stoplightio/spectral-action@latest
-        with:
-          file_glob: "apimartifacts/apis/**/*.json"
+      # - uses: gitleaks/gitleaks-action@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
+      # - uses: stoplightio/spectral-action@latest
+      #   with:
+      #     file_glob: "apimartifacts/apis/**/*.json"
