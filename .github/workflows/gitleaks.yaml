@@ -4,44 +4,45 @@ jobs:
   scan:
     name: gitleaks
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set safe directory
-        run: git config --global --add safe.directory /github/workspace
-
-      - name: Run Gitleaks scan
-        uses: docker://ghcr.io/gitleaks/gitleaks:latest
-        with:
-          args: |
-            git config --global --add safe.directory /github/workspace
-            detect -v -r gitleaks-report.json
-
-      - name: Upload Gitleaks report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gitleaks-report
-          path: gitleaks-report.json
-
-      - name: Fail on leaks
-        if: failure()
-        run: |
-          echo "Gitleaks detected leaks, failing the job."
-          exit 1
-    # container: #起動するコンテナイメージを指定
-    #   image: ghcr.io/gitleaks/gitleaks:latest #指定のdockerイメージを使用
     # steps:
-    #   - uses: actions/checkout@v3
+    #   - name: Checkout repository
+    #     uses: actions/checkout@v3
+
+    #   - name: Set safe directory
+    #     run: git config --global --add safe.directory /github/workspace
+
+    #   - name: Run Gitleaks scan
+    #     uses: docker://ghcr.io/gitleaks/gitleaks:latest
     #     with:
-    #       fetch-depth: 0
-    #   - run: |
-    #       gitleaks detect
-    # - uses: gitleaks/gitleaks-action@v2
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
-    # - uses: stoplightio/spectral-action@latest
-    #   with:
-    #     file_glob: "apimartifacts/apis/**/*.json"
+    #       args: |
+    #         git config --global --add safe.directory /github/workspace
+    #         detect -v -r gitleaks-report.json
+
+    #   - name: Upload Gitleaks report
+    #     if: always()
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: gitleaks-report
+    #       path: gitleaks-report.json
+
+    #   - name: Fail on leaks
+    #     if: failure()
+    #     run: |
+    #       echo "Gitleaks detected leaks, failing the job."
+    #       exit 1
+    container: #起動するコンテナイメージを指定
+      image: ghcr.io/gitleaks/gitleaks:latest #指定のdockerイメージを使用
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          git config --global --add safe.directory /github/workspace
+          gitleaks detect
+    - uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
+    - uses: stoplightio/spectral-action@latest
+      with:
+        file_glob: "apimartifacts/apis/**/*.json"
