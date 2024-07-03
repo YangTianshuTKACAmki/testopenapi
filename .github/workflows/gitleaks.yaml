@@ -12,3 +12,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
+      # Run Spectral
+      - uses: stoplightio/spectral-action@latest
+        with:
+          file_glob: '"${{ GITHUB.WORKSPACE }}/apimartifacts\apis\*.{json,yml,yaml}"'
