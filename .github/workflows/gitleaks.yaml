@@ -15,4 +15,4 @@ jobs:
       # Run Spectral
       - uses: stoplightio/spectral-action@latest
         with:
-          file_glob: '"${{ GITHUB.WORKSPACE }}/apimartifacts\apis\*.{json,yml,yaml}"'
+          file_glob: "${{ GITHUB.WORKSPACE }}/apimartifacts\apis\*.{json,yml,yaml}"
