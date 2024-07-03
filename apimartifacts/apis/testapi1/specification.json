@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "testapi1",
-    "description": "",
+    "description": "this is a test api",
     "version": "1.0"
   },
   "servers": [

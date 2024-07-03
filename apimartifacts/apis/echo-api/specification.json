@@ -2,6 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Echo API",
+    "description": "this is a test api",
     "version": "1.0"
   },
   "servers": [
