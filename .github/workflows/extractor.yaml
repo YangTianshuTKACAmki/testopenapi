@@ -1,4 +1,4 @@
-name: Run - Extractor
+name: Extractor
 
 on:
   workflow_dispatch:
@@ -88,7 +88,7 @@ jobs:
   create-pull-request:
     needs: extract
     runs-on: [ubuntu-latest]
-    environment: dev
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
 
