@@ -34,6 +34,7 @@ jobs:
     if: (github.event.inputs.COMMIT_ID_CHOICE == 'publish-artifacts-in-last-commit' || github.event.inputs.COMMIT_ID_CHOICE == '')
     needs: get-commit
     uses: ./.github/workflows/run-publisher-with-env.yaml
+    environment: dev
     with:
       # API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
       API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
