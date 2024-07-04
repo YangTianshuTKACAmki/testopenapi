@@ -6,6 +6,9 @@ on:
       - main
       - integration
 
+env:
+  apiops_release_version: v6.0.0-alpha.1.0.9
+
 jobs:
   get-commit:
     runs-on: ubuntu-latest
