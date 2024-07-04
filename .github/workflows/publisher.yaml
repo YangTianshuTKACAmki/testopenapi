@@ -1,0 +1,98 @@
+name: Publisher
+
+on:
+  push:
+    branches:
+      - main
+      - integration
+
+env:
+  apiops_release_version: v6.0.0-alpha.1.0.9
+
+jobs:
+  get-commit:
+    runs-on: ubuntu-latest
+    steps:
+      # Set the COMMIT_ID env variable
+      - name: Set the Commit Id
+        id: commit
+        run: |
+          echo "::set-output name=commit_id::${{ github.sha }}"
+    outputs:
+      commit_id: ${{ steps.commit.outputs.commit_id }}
+
+  #Publish with Commit ID
+  deploy:
+    needs: get-commit
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run publisher
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+          API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
+          API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ secrets.APIM_FOLDER }}
+          COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $VerbosePreference = "Continue"
+          $InformationPreference = "Continue"
+
+          Write-Information "Setting name variables..."
+          $releaseFileName = "publisher-linux-x64.zip"
+          $executableFileName = "publisher"
+
+          if ("${{ runner.os }}" -like "*win*") {
+            $releaseFileName = "publisher-win-x64.zip"
+            $executableFileName = "publisher.exe"
+          }
+          elseif ("${{ runner.os }}" -like "*mac*" -and "${{ runner.arch }}" -like "*arm*") {
+            $releaseFileName = "publisher-osx-arm64.zip"
+          }
+          elseif ("${{ runner.os }}" -like "*mac*" -and "${{ runner.arch }}" -like "*x86_64*") {
+            $releaseFileName = "publisher-osx-x64.zip"
+          }
+
+          Write-Information "Downloading release..."
+          $uri = "https://github.com/Azure/apiops/releases/download/${{ env.apiops_release_version }}/$releaseFileName"
+          $downloadFilePath = Join-Path "${{ runner.temp }}" $releaseFileName
+          Invoke-WebRequest -Uri "$uri" -OutFile "$downloadFilePath"
+
+          Write-Information "Extracting release..."
+          $executableFolderPath = Join-Path "${{ runner.temp }}" "publisher"
+          Expand-Archive -Path "$downloadFilePath" -DestinationPath "$executableFolderPath"
+          $executableFilePath = Join-Path "$executableFolderPath" $executableFileName
+
+          Write-Information "Setting file permissions..."
+          if ("${{ runner.os }}" -like "*linux*")
+          {
+            & chmod +x "$executableFilePath"
+            if ($LASTEXITCODE -ne 0) { throw "Setting file permissions failed."}
+          }
+
+          Write-Information "Running publisher..."
+          & "$executableFilePath"              
+          if ($LASTEXITCODE -ne 0) { throw "Running publisher failed."}
+
+          Write-Information "Execution complete."
+        shell: pwsh
+      # env:
+      #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
+      #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
+      #   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ secrets.APIM_FOLDER }}
+      # run: |
+
+    # uses: ./.github/workflows/test-publisher.yaml
+    # with:
+    #   # API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
+    #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
+    #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
+    #   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ secrets.APIM_FOLDER }} # change this to the artifacts folder
+    # secrets: inherit
