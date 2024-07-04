@@ -3,22 +3,13 @@ name: Run - Extractor
 on:
   workflow_dispatch:
     inputs:
-      CONFIGURATION_YAML_PATH:
-        description: "Choose Wether to extract all Apis or extract apis listed an extraction configuration file"
+      ENVIRONMENT:
+        description: "Choose whether to extract all Apis from dev or prod environment."
         required: true
         type: choice
         options:
-          - Extract All APIs
-          - configuration.extractor.yaml
-      API_SPECIFICATION_FORMAT:
-        description: "API Specification Format"
-        required: true
-        type: choice
-        options:
-          - OpenAPIV3Yaml
-          - OpenAPIV3Json
-          - OpenAPIV2Yaml
-          - OpenAPIV2Json
+          - dev
+          - prod
 
 env:
   apiops_release_version: v6.0.0-alpha.1.0.9
@@ -26,7 +17,8 @@ env:
 jobs:
   extract:
     runs-on: ubuntu-latest
-    environment: dev # change this to match the dev environment created in settings
+    # environment: dev # change this to match the dev environment created in settings
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
 
