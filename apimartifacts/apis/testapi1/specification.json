@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "changedNameFromGithubActions123",
-    "description": "",
+    "description": "this is a description",
     "version": "1.0"
   },
   "servers": [
