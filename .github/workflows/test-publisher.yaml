@@ -1,32 +1,35 @@
-name: Publisher
+name: Run Publisher with Environment
 
 on:
-  push:
-    branches:
-      - main
-      - integration
+  workflow_call:
+    inputs:
+      API_MANAGEMENT_ENVIRONMENT:
+        required: true
+        type: string
+      CONFIGURATION_YAML_PATH:
+        required: false
+        type: string
+      COMMIT_ID:
+        required: false
+        type: string
+      API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH:
+        required: true
+        type: string
+
+env:
+  apiops_release_version: v6.0.0-alpha.1.0.9
+  #By default, this will be Information but if you want something different you will need to add a variable in the Settings -> Environment -> Environment variables section
+  Logging__LogLevel__Default: ${{ vars.LOG_LEVEL }}
 
 jobs:
-  get-commit:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      # Set the COMMIT_ID env variable
-      - name: Set the Commit Id
-        id: commit
-        run: |
-          echo "::set-output name=commit_id::${{ github.sha }}"
-    outputs:
-      commit_id: ${{ steps.commit.outputs.commit_id }}
-
-  #Publish with Commit ID
-  deploy:
-    needs: get-commit
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
+    environment: ${{ inputs.API_MANAGEMENT_ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run publisher
+      - name: Run publisher without Config Yaml but with Commit ID
+        if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -34,8 +37,8 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
           API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
-          API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ secrets.APIM_FOLDER }}
-          COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
+          API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ GITHUB.WORKSPACE }}/${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
+          COMMIT_ID: ${{ inputs.COMMIT_ID }}
         run: |
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
@@ -80,16 +83,3 @@ jobs:
 
           Write-Information "Execution complete."
         shell: pwsh
-      # env:
-      #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
-      #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
-      #   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ secrets.APIM_FOLDER }}
-      # run: |
-
-    # uses: ./.github/workflows/test-publisher.yaml
-    # with:
-    #   # API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
-    #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
-    #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
-    #   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ secrets.APIM_FOLDER }} # change this to the artifacts folder
-    # secrets: inherit
