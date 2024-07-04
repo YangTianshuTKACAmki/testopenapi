@@ -16,7 +16,7 @@ jobs:
       - name: Set the Commit Id
         id: commit
         run: |
-          echo "::set-output name=commit_id::${{ github.sha }}"
+          echo "commit_id=${{ github.sha }}" >> $GITHUB_OUTPUT
     outputs:
       commit_id: ${{ steps.commit.outputs.commit_id }}
 
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Run publisher
         env:
