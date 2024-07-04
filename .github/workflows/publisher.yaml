@@ -16,7 +16,7 @@ jobs:
       - name: Set the Commit Id
         id: commit
         run: |
-          echo "::set-output name=commit_id::${{ github.sha }}"
+          echo "commit_id=${{ github.sha }}" >> $GITHUB_OUTPUT
     outputs:
       commit_id: ${{ steps.commit.outputs.commit_id }}
 
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Run publisher
         env:
@@ -81,17 +81,3 @@ jobs:
 
           Write-Information "Execution complete."
         shell: pwsh
-
-      # env:
-      #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
-      #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
-      #   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ secrets.APIM_FOLDER }}
-      # run: |
-
-    # uses: ./.github/workflows/test-publisher.yaml
-    # with:
-    #   # API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
-    #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
-    #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
-    #   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ secrets.APIM_FOLDER }} # change this to the artifacts folder
-    # secrets: inherit
