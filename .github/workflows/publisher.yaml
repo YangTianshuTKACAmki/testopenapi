@@ -13,7 +13,6 @@ jobs:
   get-commit:
     runs-on: ubuntu-latest
     steps:
-      # Set the COMMIT_ID env variable
       - name: Set the Commit Id
         id: commit
         run: |
@@ -21,7 +20,6 @@ jobs:
     outputs:
       commit_id: ${{ steps.commit.outputs.commit_id }}
 
-  #Publish with Commit ID
   deploy:
     needs: get-commit
     runs-on: ubuntu-latest
@@ -83,6 +81,7 @@ jobs:
 
           Write-Information "Execution complete."
         shell: pwsh
+
       # env:
       #   API_MANAGEMENT_ENVIRONMENT: ${{ github.ref == 'refs/heads/integration' && 'dev' || 'prod' }}
       #   COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
